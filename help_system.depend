@@ -1,0 +1,15 @@
+# depslib dependency file v1.0
+1664699853 source:d:\codeblocks\share\help_system\main.cpp
+	<iostream>
+	"help.h"
+
+1664774142 source:d:\codeblocks\share\help_system\help.cpp
+	"help.h"
+	<iostream>
+	<cstring>
+	<fstream>
+	<sstream>
+
+1664700603 d:\codeblocks\share\help_system\help.h
+	<string>
+
