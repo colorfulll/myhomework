@@ -5,9 +5,9 @@
 #include <sstream>
 using namespace std;
 
-int itemCounter = 0;//¼ÇÂ¼¶Áµ½itemFileµÄÎ»ÖÃ
-int ownerCounter = 0;//¼ÇÂ¼¶Áµ½ownerFileµÄÎ»ÖÃ£»
-int numCounter = 0;//¼ÇÂ¼¶Áµ½numFileµÄÎ»ÖÃ
+int itemCounter = 0;//è®°å½•è¯»åˆ°itemFileçš„ä½ç½®
+int ownerCounter = 0;//è®°å½•è¯»åˆ°ownerFileçš„ä½ç½®ï¼›
+int numCounter = 0;//è®°å½•è¯»åˆ°numFileçš„ä½ç½®
 
 ofstream outItem;
 ofstream outOwner;
@@ -18,11 +18,11 @@ ifstream inOwner;
 ifstream inNum;
 ifstream inSummary;
 
-//´ÓÎÄ¼şÖĞ¶Á×Ö·û´®
-string readFileIntoString(char * filename, int &counter)
+//ä»æ–‡ä»¶ä¸­è¯»å­—ç¬¦ä¸²
+string readFileIntoString(const char * filename, int &counter)
 {
 ifstream ifile(filename);
-//½«ÎÄ¼ş¶ÁÈëµ½ostringstream¶ÔÏóbufÖĞ
+//å°†æ–‡ä»¶è¯»å…¥åˆ°ostringstreamå¯¹è±¡bufä¸­
 ostringstream buf;
 char ch;
 ifile.seekg(counter);
@@ -32,11 +32,11 @@ while(buf&&ifile.get(ch)&&(ch!=' '))
     counter++;
 }
 counter++;
-//·µ»ØÓëÁ÷¶ÔÏóbuf¹ØÁªµÄ×Ö·û´®
+//è¿”å›ä¸æµå¯¹è±¡bufå…³è”çš„å­—ç¬¦ä¸²
 return buf.str();
 }
 
-//¶ÔÒ»ÖÖÎïÆ·½øĞĞ³õÊ¼»¯
+//å¯¹ä¸€ç§ç‰©å“è¿›è¡Œåˆå§‹åŒ–
 HelpItem::HelpItem(string item, string owner, int num)
 {
     itemName = item;
@@ -44,28 +44,28 @@ HelpItem::HelpItem(string item, string owner, int num)
     leftNum = num;
 }
 
-//±È½ÏÁ½ÎïÆ·ÊÇ·ñÊÇÍ¬ÖÖÎïÆ·ÇÒÊÇ·ñÊôÓÚÍ¬Ò»¸öÈË£»
+//æ¯”è¾ƒä¸¤ç‰©å“æ˜¯å¦æ˜¯åŒç§ç‰©å“ä¸”æ˜¯å¦å±äºåŒä¸€ä¸ªäººï¼›
 bool HelpItem::compareTwo(string item, string owner)
 {
     if ((item.compare(this->itemName) || owner.compare(this->ownerName)) == 0) return true;
     else return false;
 }
 
-//±È½ÏÁ½ÎïÆ·ÊÇ·ñÊÇÍ¬Ò»ÖÖÎïÆ·
+//æ¯”è¾ƒä¸¤ç‰©å“æ˜¯å¦æ˜¯åŒä¸€ç§ç‰©å“
 bool HelpItem::compareOne(string item)
 {
     if (item.compare(this->itemName) == 0) return true;
     else return false;
 }
 
-//ÏÔÊ¾Ò»ÖÖÎïÆ·µÄĞÅÏ¢
+//æ˜¾ç¤ºä¸€ç§ç‰©å“çš„ä¿¡æ¯
 void HelpItem::show()
 {
-   cout << "itemname:" << this -> itemName << "     ËùÓĞÈË£º"
-    << this -> ownerName << "      ÊıÁ¿£º" << this ->leftNum << endl ;
+   cout << "itemname:" << this -> itemName << "     æ‰€æœ‰äººï¼š"
+    << this -> ownerName << "      æ•°é‡ï¼š" << this ->leftNum << endl ;
 }
 
-//"="ÔËËã·ûÖØÔØ
+//"="è¿ç®—ç¬¦é‡è½½
 HelpItem &HelpItem::operator=(const HelpItem &item)
 {
     itemName = item.itemName;
@@ -74,7 +74,7 @@ HelpItem &HelpItem::operator=(const HelpItem &item)
     return *this;
 }
 
-//½«Ò»¼şÎïÆ·µÄĞÅÏ¢´¢´æ½øÎÄ¼şÖĞ
+//å°†ä¸€ä»¶ç‰©å“çš„ä¿¡æ¯å‚¨å­˜è¿›æ–‡ä»¶ä¸­
 void HelpItem::itemStore()
 {
     outItem<< this->itemName << " " ;
@@ -96,7 +96,7 @@ void HelpItem::itemRead()
 
 
 
-//³õÊ¼»¯ÎïÆ·ÁĞ±í
+//åˆå§‹åŒ–ç‰©å“åˆ—è¡¨
 HelpList::HelpList()
 {
     HelpItem *tmp = new HelpItem [100];
@@ -104,7 +104,7 @@ HelpList::HelpList()
     listRead();
 }
 
-//Ìí¼ÓÎïÆ·, Èç¹ûÁĞ±íÒÑÂú·µ»Øfalse
+//æ·»åŠ ç‰©å“, å¦‚æœåˆ—è¡¨å·²æ»¡è¿”å›false
 bool HelpList::addItem(string item, string owner, int addNum)
 {
     if (numofItem == 100) return false;
@@ -117,21 +117,21 @@ bool HelpList::addItem(string item, string owner, int addNum)
     }
 }
 
-//É¾³ıÎïÆ·
+//åˆ é™¤ç‰©å“
 bool HelpList::deleteItem(string item, string owner, int deleteNum)
 {
     int track = -1;
     if (numofItem == 0) return false;
     else
     {
-        //ÕÒµ½ÒªÉ¾³ıµÄÔªËØµÄÏÂ±ê
+        //æ‰¾åˆ°è¦åˆ é™¤çš„å…ƒç´ çš„ä¸‹æ ‡
         for (int i=0; i<numofItem; ++i)
         {
             if (infoList[i].compareTwo(item, owner)) track=i;
         }
           if (track == -1) return false;
 
-        //É¾³ıÓĞÁ½ÖÖÇé¿ö£¬È«²¿É¾³ıºÍ²¿·ÖÉ¾³ı£»
+        //åˆ é™¤æœ‰ä¸¤ç§æƒ…å†µï¼Œå…¨éƒ¨åˆ é™¤å’Œéƒ¨åˆ†åˆ é™¤ï¼›
         if (deleteNum == infoList[track].leftNum)
         {
             --numofItem;
@@ -145,7 +145,7 @@ bool HelpList::deleteItem(string item, string owner, int deleteNum)
     }
 }
 
-//²éÕÒÎïÆ·
+//æŸ¥æ‰¾ç‰©å“
 void HelpList::findItem(string item)
 {
     int counter = 0;
@@ -157,10 +157,10 @@ void HelpList::findItem(string item)
             counter++;
         }
     }
-    if (counter == 0) cout << "Ã»ÓĞ¸ÃÎïÆ·" << endl ;
+    if (counter == 0) cout << "æ²¡æœ‰è¯¥ç‰©å“" << endl ;
 }
 
-//ÏÔÊ¾ÎïÆ·ÁĞ±í£»
+//æ˜¾ç¤ºç‰©å“åˆ—è¡¨ï¼›
 void HelpList::presentList()
 {
     for (int i=0; i<numofItem; ++i) infoList[i].show();
@@ -171,7 +171,7 @@ HelpList::~HelpList()
     delete [] infoList;
 }
 
-//³ÌĞò¿ªÊ¼Ê±¸ù¾İÎÄ¼ş³õÊ¼»¯ÁĞ±í
+//ç¨‹åºå¼€å§‹æ—¶æ ¹æ®æ–‡ä»¶åˆå§‹åŒ–åˆ—è¡¨
 void HelpList::listRead()
 {
     char ch;
@@ -186,7 +186,7 @@ void HelpList::listRead()
 
 }
 
-//½«Ò»¸ö±íµÄĞÅÏ¢´¢´æ½øÎÄ¼şÖĞ
+//å°†ä¸€ä¸ªè¡¨çš„ä¿¡æ¯å‚¨å­˜è¿›æ–‡ä»¶ä¸­
 void HelpList::listStore()
 {
     outItem.open("itemFile");
